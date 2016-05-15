@@ -20,7 +20,7 @@ func stakeError(err error){
 
 func walkRepo(repo *git.Repository){
 
-	var repoCommits core.StakeRepository
+	repoCommits := core.NewStakeRepository()
 
 	var authors core.StakeAuthors
 	authors = make(core.StakeAuthors)
@@ -50,7 +50,7 @@ func walkRepo(repo *git.Repository){
 		authors.Perform(commit)
 	}
 	fmt.Println(authors)
-	fmt.Println(&repoCommits)
+	fmt.Println(repoCommits)
 }
 
 func main(){
