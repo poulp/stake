@@ -4,7 +4,12 @@ import (
 	"fmt"
 	"os"
 	"github.com/libgit2/git2go"
+	"time"
+
+	"github.com/poulp/stake/core"
 )
+
+const VERSION = "0.1"
 
 func stakeError(err error){
 	if err != nil {
@@ -14,13 +19,18 @@ func stakeError(err error){
 }
 
 func walkRepo(repo *git.Repository){
+
+	var repoCommits core.StakeRepository
+
+	var authors core.StakeAuthors
+	authors = make(core.StakeAuthors)
+
 	walk, err := repo.Walk()
 	stakeError(err)
 	walk.PushRange("HEAD..HEAD")
-	commits := make([]*git.Commit, 0, 1)
 
 	oid := new(git.Oid)
-	/* Iterate throught commits */
+	/* Iterate through commits */
 	for {
 		err = walk.Next(oid)
 		if err != nil {
@@ -34,16 +44,24 @@ func walkRepo(repo *git.Repository){
 		commit, err := repo.LookupCommit(oid)
 		stakeError(err)
 
-		commits = append(commits, commit)
+		// Repository
+		repoCommits.Perform(commit)
+		// Authors
+		authors.Perform(commit)
 	}
-
-	fmt.Println(commits)
+	fmt.Println(authors)
+	fmt.Println(&repoCommits)
 }
 
 func main(){
+	var stakeInfo core.StakeInfo
+	defer stakeInfo.SetInfo(VERSION, time.Now())
+
+	/* Open repository */
 	repo, err := git.OpenRepository(".")
 	stakeError(err)
 	defer repo.Free()
 
+	/* Main */
 	walkRepo(repo)
 }
