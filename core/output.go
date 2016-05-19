@@ -49,9 +49,7 @@ type StakeHTMLOutput struct {
 }
 
 func (sho StakeHTMLOutput) render(r *StakeRepository, a *StakeAuthors){
-	enc := json.NewEncoder(os.Stdout)
-	d := map[string]int{"apple": 5, "lettuce": 7}
-	enc.Encode(d)
+	os.Mkdir(sho.dir_name, 0644)
 }
 
 func (sjo StakeHTMLOutput) displayBefore(){

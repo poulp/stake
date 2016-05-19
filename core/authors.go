@@ -1,8 +1,9 @@
 package core
 
 import (
-	"github.com/libgit2/git2go"
 	"fmt"
+
+	"github.com/libgit2/git2go"
 )
 
 type StakeAuthor struct {

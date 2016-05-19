@@ -3,6 +3,7 @@ package core
 import (
 	"time"
 	"fmt"
+
 	"github.com/libgit2/git2go"
 )
 
