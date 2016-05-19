@@ -1,9 +1,10 @@
 package core
 
 import (
-	"github.com/libgit2/git2go"
 	"fmt"
 	"os"
+
+	"github.com/libgit2/git2go"
 )
 
 func StakeError(err error){
@@ -13,7 +14,7 @@ func StakeError(err error){
 	}
 }
 
-func WalkRepo(repo *git.Repository){
+func WalkRepo(repo *git.Repository, output StakeOutput){
 
 	repoCommits := NewStakeRepository()
 
@@ -44,6 +45,7 @@ func WalkRepo(repo *git.Repository){
 		// Authors
 		authors.Perform(commit)
 	}
-	fmt.Println(authors)
-	fmt.Println(repoCommits)
+	/* Final render */
+	output.displayBefore()
+	output.render(repoCommits, &authors)
 }
